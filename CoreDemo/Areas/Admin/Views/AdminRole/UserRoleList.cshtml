@@ -1,0 +1,35 @@
+﻿@using EntityLayer.Concrete
+@model List<AppUser>
+
+@{
+    ViewData["Title"] = "UserRoleList";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h1>Kullanıcı Rol Listesi</h1>
+
+<table class="table-responsive table table-bordered">
+    <tr>
+        <th>Kullanıcı</th>
+        <th>Rol Ata</th>
+    </tr>
+    @foreach( var item in Model ){
+
+        <tr>
+            <td>@item.UserName</td>
+            <td><a href="/Admin/AdminRole/AssignRole/@item.Id" class="btn btn-warning">Roller</a></td>
+        </tr>
+
+    }
+</table>
+<a class="" href="/Admin/AdminRole/"><i class="fa fa-arrow-circle-o-left"></i> Rol Listesine Dön</a>
+@section scripts{
+
+    <!-- Mainly scripts -->
+    <script src="~/inspinia-gh-pages/js/jquery-3.1.1.min.js"></script>
+    <script src="~/inspinia-gh-pages/js/popper.min.js"></script>
+    <script src="~/inspinia-gh-pages/js/bootstrap.js"></script>
+    <script src="~/inspinia-gh-pages/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="~/inspinia-gh-pages/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+}

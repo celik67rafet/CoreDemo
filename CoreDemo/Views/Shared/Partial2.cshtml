@@ -1,0 +1,36 @@
+﻿<div class="col-md-4 top-forms text-center mt-lg-3 mt-md-1 mt-0">
+	<span>Hoşgeldin</span>
+	<span class="mx-lg-4 mx-md-2  mx-1">
+		@if( User.Identity.Name == "" || User.Identity.Name == null)
+		{
+
+			<a href="/Login/Index">
+				<i class="fas fa-lock"></i> Giriş Yap
+			</a>
+
+		}else
+		{
+			<a href="/Login/Logout">
+				<i class="fas fa-lock"></i> Çıkış Yap
+			</a>
+		}
+	</span>
+	<span class="">
+		<a href="/RegisterUser/Index/">
+			<i class="far fa-user"></i> Kayıt Ol
+		</a>
+	</span>
+	@if( User.IsInRole("Admin") || User.IsInRole("Moderator"))
+	{
+		<span class="ml-4">
+		<a href="/Dashboard">
+			<i class="far fa-user"></i> Dashboard
+		</a>
+	</span>
+	<span class="ml-4">
+		<a href="/Admin">
+			<i class="far fa-user"></i> Admin
+		</a>
+	</span>
+	}
+</div>

@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "WriterAdd";
+    Layout = "~/Views/Shared/WriterLayout.cshtml";
+}
+
+@model EntityLayer.Concrete.AppUser
+
+<div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Yazar Profili</h4>
+                <div class="form-group row">
+                    <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Yazar Adı</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" disabled id="exampleInputUsername2" value="@Model.NameSurname">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Email</label>
+                    <div class="col-sm-9">
+                        <input type="email" class="form-control" id="exampleInputEmail2" disabled value="@Model.Email">
+                    </div>
+                </div>
+                @* <div class="form-group row">
+                    <label for="exampleInputMobile" class="col-sm-3 col-form-label">Yazar Hakkında</label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" rows="3" disabled>@Model.WriterAbout</textarea>
+                    </div>
+                </div> *@
+                @* <div class="form-group row">
+                    <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Password</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Re Password</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" id="exampleInputConfirmPassword2" placeholder="Password">
+                    </div>
+                </div> *@
+                <a href="/Writer/WriterEditProfile/" class="btn btn-gradient-primary mr-2">Düzenle</a>
+        </div>
+    </div>
+</div>

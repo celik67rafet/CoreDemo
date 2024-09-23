@@ -1,0 +1,318 @@
+﻿@using CoreDemo.Areas.Admin.Models
+@model MessageAllModelView
+
+@{
+    ViewData["Title"] = "SendBox";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<body>
+
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            @await Component.InvokeAsync("MessageNavbarPartial")
+            <div class="col-lg-9 animated fadeInRight">
+                <div class="mail-box-header">
+
+                    <form method="get" action="index.html" class="float-right mail-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-sm" name="search" placeholder="Ara">
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-sm btn-primary">
+                                    Ara
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <h2>
+                        Giden Kutusu (@Model.SendBox.Where( x => x.VisibleInSandBox == true ).Count())
+                    </h2>
+                    <div class="mail-tools tooltip-demo m-t-md">
+                        <div class="btn-group float-right">
+                            <button class="btn btn-white btn-sm"><i class="fa fa-arrow-left"></i></button>
+                            <button class="btn btn-white btn-sm"><i class="fa fa-arrow-right"></i></button>
+
+                        </div>
+                        <button class="btn btn-white btn-sm" id="deleteFromBox" data-toggle="tooltip" data-placement="top" title="Sil"><i class="fa fa-trash-o"></i> </button>
+                        <button class="btn btn-white btn-sm" id="selectAll" data-toggle="tooltip" data-placement="top" title="Tümünü Seç"><i class="fa fa-check-square"></i> Tümü</button>
+                    </div>
+                </div>
+                <div class="mail-box">
+
+                    <table class="table table-hover table-mail">
+                        <tbody>
+                            @foreach (var item in Model.SendBox.Where(x => x.VisibleInSandBox == true && x.ReceiverUser != null))
+                            {
+                                <tr class="unread" data-message-id="@item.MessageID">
+                                    <td class="check-mail">
+                                        <input type="checkbox" class="i-checks">
+                                    </td>
+                                    <td class="mail-ontact"><a href="javascript:void(0);">@item.ReceiverUser.WriterName</a></td>
+                                    <td class="mail-subject"><a href="javascript:void(0);">@item.Subject</a></td>
+                                    <td class="text-right mail-date">@(((DateTime)item.MessageDate).ToString("dd-MMM-yyyy"))</td>
+                                </tr>
+                            }
+                            @* <tr class="unread">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks" checked>
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Jack Nowak</a></td>
+                            <td class="mail-subject"><a href="mail_detail.html">Aldus PageMaker including versions of Lorem Ipsum.</a></td>
+                            <td class=""></td>
+                            <td class="text-right mail-date">8.22 PM</td>
+                            </tr> *@
+                            @* <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Facebook</a> <span class="label label-warning float-right">Clients</span> </td>
+                            <td class="mail-subject"><a href="mail_detail.html">Many desktop publishing packages and web page editors.</a></td>
+                            <td class=""></td>
+                            <td class="text-right mail-date">Jan 16</td>
+                            </tr>
+                            <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Mailchip</a></td>
+                            <td class="mail-subject"><a href="mail_detail.html">There are many variations of passages of Lorem Ipsum.</a></td>
+                            <td class=""></td>
+                            <td class="text-right mail-date">Mar 22</td>
+                            </tr>
+                            <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Alex T.</a> <span class="label label-danger float-right">Documents</span></td>
+                            <td class="mail-subject"><a href="mail_detail.html">Lorem ipsum dolor noretek imit set.</a></td>
+                            <td class=""><i class="fa fa-paperclip"></i></td>
+                            <td class="text-right mail-date">December 22</td>
+                            </tr>
+                            <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Monica Ryther</a></td>
+                            <td class="mail-subject"><a href="mail_detail.html">The standard chunk of Lorem Ipsum used.</a></td>
+                            <td class=""></td>
+                            <td class="text-right mail-date">Jun 12</td>
+                            </tr>
+                            <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Sandra Derick</a></td>
+                            <td class="mail-subject"><a href="mail_detail.html">Contrary to popular belief.</a></td>
+                            <td class=""></td>
+                            <td class="text-right mail-date">May 28</td>
+                            </tr>
+                            <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Patrick Pertners</a> <span class="label label-info float-right">Adv</span></td>
+                            <td class="mail-subject"><a href="mail_detail.html">If you are going to use a passage of Lorem </a></td>
+                            <td class=""></td>
+                            <td class="text-right mail-date">May 28</td>
+                            </tr>
+                            <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Michael Fox</a></td>
+                            <td class="mail-subject"><a href="mail_detail.html">Humour, or non-characteristic words etc.</a></td>
+                            <td class=""></td>
+                            <td class="text-right mail-date">Dec 9</td>
+                            </tr>
+                            <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Damien Ritz</a></td>
+                            <td class="mail-subject"><a href="mail_detail.html">Oor Lorem Ipsum is that it has a more-or-less normal.</a></td>
+                            <td class=""></td>
+                            <td class="text-right mail-date">Jun 11</td>
+                            </tr>
+                            <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Anna Smith</a></td>
+                            <td class="mail-subject"><a href="mail_detail.html">Lorem ipsum dolor noretek imit set.</a></td>
+                            <td class=""><i class="fa fa-paperclip"></i></td>
+                            <td class="text-right mail-date">6.10 AM</td>
+                            </tr>
+                            <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Jack Nowak</a></td>
+                            <td class="mail-subject"><a href="mail_detail.html">Aldus PageMaker including versions of Lorem Ipsum.</a></td>
+                            <td class=""></td>
+                            <td class="text-right mail-date">8.22 PM</td>
+                            </tr>
+                            <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Mailchip</a></td>
+                            <td class="mail-subject"><a href="mail_detail.html">There are many variations of passages of Lorem Ipsum.</a></td>
+                            <td class=""></td>
+                            <td class="text-right mail-date">Mar 22</td>
+                            </tr>
+                            <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Alex T.</a> <span class="label label-warning float-right">Clients</span></td>
+                            <td class="mail-subject"><a href="mail_detail.html">Lorem ipsum dolor noretek imit set.</a></td>
+                            <td class=""><i class="fa fa-paperclip"></i></td>
+                            <td class="text-right mail-date">December 22</td>
+                            </tr>
+                            <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Monica Ryther</a></td>
+                            <td class="mail-subject"><a href="mail_detail.html">The standard chunk of Lorem Ipsum used.</a></td>
+                            <td class=""></td>
+                            <td class="text-right mail-date">Jun 12</td>
+                            </tr>
+                            <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Sandra Derick</a></td>
+                            <td class="mail-subject"><a href="mail_detail.html">Contrary to popular belief.</a></td>
+                            <td class=""></td>
+                            <td class="text-right mail-date">May 28</td>
+                            </tr>
+                            <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Patrick Pertners</a> </td>
+                            <td class="mail-subject"><a href="mail_detail.html">If you are going to use a passage of Lorem </a></td>
+                            <td class=""></td>
+                            <td class="text-right mail-date">May 28</td>
+                            </tr>
+                            <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Michael Fox</a></td>
+                            <td class="mail-subject"><a href="mail_detail.html">Humour, or non-characteristic words etc.</a></td>
+                            <td class=""></td>
+                            <td class="text-right mail-date">Dec 9</td>
+                            </tr>
+                            <tr class="read">
+                            <td class="check-mail">
+                            <input type="checkbox" class="i-checks">
+                            </td>
+                            <td class="mail-ontact"><a href="mail_detail.html">Damien Ritz</a></td>
+                            <td class="mail-subject"><a href="mail_detail.html">Oor Lorem Ipsum is that it has a more-or-less normal.</a></td>
+                            <td class=""></td>
+                            <td class="text-right mail-date">Jun 11</td>
+                            </tr>
+                            *@
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+@section scripts {
+
+    <!-- Mainly scripts -->
+    <script src="~/inspinia-gh-pages/js/jquery-3.1.1.min.js"></script>
+    <script src="~/inspinia-gh-pages/js/popper.min.js"></script>
+    <script src="~/inspinia-gh-pages/js/bootstrap.js"></script>
+    <script src="~/inspinia-gh-pages/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="~/inspinia-gh-pages/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <script>
+        $(document).ready( function(){
+
+            var isChecked = false;
+
+            $('#selectAll').click( function(){
+
+                if ( isChecked ) 
+                {
+                    $(this).html('<i class="fa fa-check-square"></i> Tümü')
+                    $('input.i-checks').iCheck('uncheck');
+                } 
+                else 
+                    
+                {
+                    $(this).html('<i class="fa fa-window-close"></i> Tümü')
+                    $('input.i-checks').iCheck('check');            
+                }
+
+                isChecked = !isChecked;
+
+            } )
+
+            $('#deleteFromBox').click( function(){
+                
+                console.log("butona basıldı");
+
+                var checkedItems = $('input.i-checks:checked');
+
+                var messageIds = [];
+
+                checkedItems.each( function(){
+
+                    var row = $(this).closest('tr');
+
+                    var messageId = row.attr('data-message-id');
+
+                    console.log( messageId );
+
+                    if (messageId) {
+
+                        messageIds.push(messageId);
+
+                    }
+
+                } )
+
+                if( messageIds.length > 0 ){
+
+                    $.ajax({
+
+                        url: 'DeleteFromSendBox',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        data: JSON.stringify( messageIds ),
+                        success: function (data) {
+
+                            console.log(data.message);
+
+                            window.location.href = 'SendBox';
+
+                        },
+                        error: function( xhr, status, error ){
+
+                            console.log( "Hata: ", error );
+
+                        }
+
+                    })
+
+                }
+
+
+            } )
+
+        } )
+    </script>
+
+}
+

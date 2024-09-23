@@ -1,0 +1,40 @@
+﻿
+@model EntityLayer.Concrete.Category
+
+@{
+    ViewData["Title"] = "AddCategory";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@using ( Html.BeginForm( "AddCategory" , "Category" , FormMethod.Post ))
+{
+    @Html.Label("Kategor Adı")
+    @Html.TextBoxFor( x => x.CategoryName , new { @class = "form-control" })
+    @Html.ValidationMessageFor( x => x.CategoryName )
+    <br />
+    @Html.Label( "Kategori Açıklaması" )
+    @Html.TextAreaFor( x => x.CategoryDescription, new { @class = "form-control" } )
+    @Html.ValidationMessageFor( x => x.CategoryDescription )
+    <br />
+    <button class="btn btn-info">Ekle</button>
+}
+
+
+
+@section scripts{
+    <!-- Mainly scripts -->
+    <script src="~/inspinia-gh-pages/js/jquery-3.1.1.min.js"></script>
+    <script src="~/inspinia-gh-pages/js/popper.min.js"></script>
+    <script src="~/inspinia-gh-pages/js/bootstrap.js"></script>
+    <script src="~/inspinia-gh-pages/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="~/inspinia-gh-pages/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <script>
+        Swal.fire({
+            title: 'Error!',
+            text: 'Do you want to continue',
+            icon: 'error',
+            confirmButtonText: 'Cool'
+        })
+    </script>
+}

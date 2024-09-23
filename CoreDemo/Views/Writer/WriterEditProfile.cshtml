@@ -1,0 +1,115 @@
+﻿
+@model UserUpdateViewModel
+
+@{
+    ViewData["Title"] = "WriterEditProfile";
+    Layout = "~/Views/Shared/WriterLayout.cshtml";
+}
+
+@using (Html.BeginForm("WriterEditProfile", "Writer", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Yazar Profili Düzenle</h4>
+                <form class="forms-sample" method="post">
+                    <div class="form-group"> 
+                        <label for="exampleInputName">Yazar Adı:</label>
+                        <input type="text" asp-for="@Model.namesurname" class="form-control"/>
+                        <span class="text-danger">@Html.ValidationMessageFor(x => x.namesurname)</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail3">Kullanıcı Adı:</label>
+                        <input type="text" asp-for="@Model.username" class="form-control"/>
+                        <span class="text-danger">@Html.ValidationMessageFor(x => x.username)</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail3">Email:</label>
+                        <input asp-for="@Model.mail" class="form-control" type="email"/>
+                        <span class="text-danger">@Html.ValidationMessageFor(x => x.mail)</span>
+                    </div>
+                   @*  <div class="form-group">
+                        <label for="exampleSelectGender">Gender</label>
+                        <select class="form-control" id="exampleSelectGender">
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div> *@
+                    <div class="form-group">
+                        <label>Yazar Görseli:</label>
+                        <input type="file" id="fileInput" asp-for="@Model.WriterImage" class="form-control" style="display: none;" />
+                        <div class="input-group col-xs-12">
+                            <!-- Görüntüleme alanı ve buton -->
+                            <input type="text" class="form-control file-upload-info" id="fileName" disabled placeholder="Resim Seçmediniz" />
+                            <span class="input-group-append">
+                                <button class="file-upload-browse btn btn-gradient-primary" type="button" id="fileButton">Resim Seç</button>
+                            </span>
+                        </div>
+                        <span class="text-danger">@Html.ValidationMessageFor(x => x.WriterImage)</span>
+                    </div>
+                    @* <div class="form-group">
+                        <label for="exampleInputCity1">City</label>
+                        <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location">
+                    </div> *@
+                    @* <div class="form-group">
+                        <label for="exampleTextarea1">Yazar Hakkında:</label>
+                        @Html.TextAreaFor( x => x.WriterAbout , 3,10, new { @class = "form-control" } )
+                        <span class="text-danger">@Html.ValidationMessageFor(x => x.WriterAbout)</span>
+                    </div> *@
+                    <div class="form-group">
+                        <label for="exampleInputEmail3">Şifre:</label>
+                        <div class="input-group">
+                            <input id="passwordInput" asp-for="@Model.password" class="form-control" type="password" />
+                            <span class="input-group-text toggle-icon" onclick="togglePasswordVisibility()">
+                                <i id="toggleIcon" class="mdi mdi-eye"></i> <!-- Başlangıçta görünürlük simgesi -->
+                            </span>
+                        </div>
+                        <span class="text-danger">@Html.ValidationMessageFor(x => x.password)</span>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" asp-for="@Model.isChangePassword"> Şifreyi Değiştir
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-gradient-primary mr-2">Güncelle</button>
+                    <a href="/Dashboard/" class="btn btn-light">İptal Et</a>
+                </form>
+            </div> 
+        </div>
+    </div>
+}
+    <script>
+
+        document.getElementById('fileButton').addEventListener('click', function () {
+            document.getElementById('fileInput').click(); // Gizli dosya inputu tetikle
+        });
+
+        document.getElementById('fileInput').addEventListener('change', function (event) {
+            var fileName = event.target.files[0] ? event.target.files[0].name : 'Resim Seçmediniz';
+            document.getElementById('fileName').value = fileName; // Seçilen dosyanın adını göster
+        });
+
+        function togglePasswordVisibility() {
+
+            
+
+            var passwordInput = document.getElementById("passwordInput");
+            var toggleIcon = document.getElementById("toggleIcon");
+            if (passwordInput.type === "password") {
+
+                passwordInput.type = "text";
+                toggleIcon.classList.remove("mdi-eye");
+                toggleIcon.classList.add("mdi-eye-off");
+
+            }else{
+            
+                passwordInput.type = "password";
+                toggleIcon.classList.remove("mdi-eye-off");
+                toggleIcon.classList.add("mdi-eye");
+
+            }
+
+        }
+    </script>
+
+

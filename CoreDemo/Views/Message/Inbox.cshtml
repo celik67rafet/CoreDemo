@@ -1,0 +1,74 @@
+﻿@using EntityLayer.Concrete
+@model List<Message2>
+
+@{
+    ViewData["Title"] = "Inbox";
+    Layout = "~/Views/Shared/WriterLayout.cshtml";
+}
+
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body table-responsive">
+                <h4 class="card-title">Gelen Mesajlar</h4>
+                
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Sender ID </th>
+                            <th class="text-center">Sender Name </th>
+                            <th class="text-center">Message Subject </th>
+                            <th class="text-center">Sender Mail </th>
+                            <th class="text-center">Message Details </th>
+                            <th class="text-center">Message Date </th>
+                            <th class="text-center">Message Status </th>
+                            <th class="text-center"> Message Edit </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach( var item in Model)
+                        {
+                            <tr>
+                                <td class="text-center"> @item.SenderID </td>
+                                <td class="text-center"> @item.SenderUser.WriterName </td>
+                                <td class="text-center"> @item.Subject </td>
+                                <td class="text-center"> @item.SenderUser.WriterMail </td>
+                                <td class="text-center">
+                                @{
+                                    var maxLength = 50; // Maksimum karakter uzunluğu
+                                    var messageDetails = @item.MessageDetails;
+
+                                    if (messageDetails.Length > maxLength)
+                                    {
+                                        messageDetails = messageDetails.Substring(0, maxLength) + "...";
+                                    }
+                                }
+                                @messageDetails
+                                </td>
+                            <td class="text-center"> @(((DateTime)item.MessageDate).ToString("dd-MMM-yyyy")) </td>
+                             <td class="text-center px-0 py-1">
+                                @if (@item.MessageStatus)
+                                {
+                                    <p class="text-success my-auto">Yeni</p>
+                                }
+                                else
+                                {
+                                    <p class="text-dark my-auto">Okundu</p>
+                                }
+                            </td>
+                            <td class="p-0">
+                                <div class="d-flex justify-content-center mx-1">
+                                    <a href="/Message/MessageDetailsFromInbox/@item.MessageID" class="btn btn-primary w-auto d-inline px-1 py-2 mr-1"><span class="mdi mdi-magnify"></span> Görüntüle</a>
+                                    <a asp-controller="Message" asp-action="DeleteMessage" asp-route-messageId="@item.MessageID" class="btn btn-danger w-auto d-inline p-2"><span class="mdi mdi-delete"></span> Sil</a>
+                                </div>
+                            </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+                <br />
+                <a class="btn btn-outline-info" href="/Message/SendMessage/">Mesaj Gönder</a>
+            </div>
+        </div>
+    </div>
+

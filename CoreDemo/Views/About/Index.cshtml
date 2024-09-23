@@ -1,0 +1,130 @@
+﻿
+@using EntityLayer.Concrete
+
+@model List<About>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+
+<!--
+	Author: W3layouts
+	Author URL: http://w3layouts.com
+	License: Creative Commons Attribution 3.0 Unported
+	License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+
+	<script>
+		addEventListener("load", function () {
+			setTimeout(hideURLbar, 0);
+		}, false);
+
+		function hideURLbar() {
+			window.scrollTo(0, 1);
+		}
+	</script>
+
+<body>
+	<!--/main-->
+	<section class="main-content-w3layouts-agileits">
+		<div class="container">
+			<h3 class="tittle">Hakkımızda</h3>
+			<div class="row inner-sec">
+				<!--left-->
+				<div class="col-lg-8 left-blog-info-w3layouts-agileits text-left">
+					<div class="blog-grid-top">
+
+						<div class="blog_info_left_grid">
+							<a href="single.html">
+								<img src="~/CoreBlogTema/web/images/b5.jpg" class="img-fluid" alt="">
+							</a>
+						</div>
+						<h3>
+							Biz Kimiz & Misyonumuz & Vizyonumuz
+						</h3>
+						@foreach( var item in Model )
+						{
+							<p>
+								@item.AboutDetails1
+							</p>
+						}
+
+						<a href="single.html" class="btn btn-primary read-m">Read More</a>
+					</div>
+					
+				</div>
+				<!--//left-->
+				<!--right-->
+				<aside class="col-lg-4 agileits-w3ls-right-blog-con text-right">
+					<div class="right-blog-info text-left">
+						<div class="tech-btm">
+							<img src="~/CoreBlogTema/web/images/banner1.jpg" class="img-fluid" alt="">
+						</div>
+						
+						<h4 style="color:black;">Mail Bültenine Abone Olun</h4>
+						@await Html.PartialAsync("/Views/Newsletter/SubscribeMail.cshtml")
+
+						@await Html.PartialAsync("/Views/About/SocialMediaAbout.cshtml")
+						
+						<div class="tech-btm">
+							<h4>Son Postlar</h4>
+
+						@await Component.InvokeAsync("WriterLastBlog")
+						</div>
+					</div>
+
+				</aside>
+				<!--//right-->
+			</div>
+		</div>
+	</section>
+	<!--//main-->
+	<!--footer-->
+	
+	<!---->
+	<!-- js -->
+	@* <script src="js/jquery-2.2.3.min.js"></script> *@
+	<!-- //js -->
+	<!--/ start-smoth-scrolling -->
+	<script src="~/CoreBlogTema/web/js/move-top.js"></script>
+	<script src="~/CoreBlogTema/web/js/easing.js"></script>
+	<script>
+		jQuery(document).ready(function ($) {
+			$(".scroll").click(function (event) {
+				event.preventDefault();
+				$('html,body').animate({
+					scrollTop: $(this.hash).offset().top
+				}, 900);
+			});
+		});
+	</script>
+	<!--// end-smoth-scrolling -->
+
+	<script>
+		$(document).ready(function () {
+			/*
+									var defaults = {
+											containerID: 'toTop', // fading element id
+										containerHoverID: 'toTopHover', // fading element hover id
+										scrollSpeed: 1200,
+										easingType: 'linear'
+										};
+									*/
+
+			$().UItoTop({
+				easingType: 'easeOutQuart'
+			});
+
+		});
+	</script>
+	<a href="#home" class="scroll" id="toTop" style="display: block;">
+		<span id="toTopHover" style="opacity: 1;"> </span>
+	</a>
+
+	<!-- //Custom-JavaScript-File-Links -->
+	@* <script src="js/bootstrap.js"></script> *@
+
+
+</body>
+

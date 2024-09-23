@@ -1,0 +1,69 @@
+﻿@using CoreDemo.Controllers
+@model List<EmployeeTestController.Class1>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <tr>
+            <th class="text-center">Id</th>
+            <th class="text-center">Name</th>
+            <th class="text-center">Düzenle</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center">@item.Id</td>
+                <td class="text-center">@item.Name</td>
+                <td class="text-center">
+                    <div>
+                        <a href="/EmployeeTest/DeleteEmployee/@item.Id" class="btn btn-outline-success me-2">Sil</a>
+                        <a href="/EmployeeTest/EditEmployee/@item.Id" class="btn btn-outline-warning">Güncelle</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<hr />
+
+<a href="/EmployeeTest/AddEmployee/" class="btn btn-outline-primary">Yeni Ekle</a>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+           
+            var successMessage = '@Html.Raw(TempData["SuccessMessage"])';
+            var errorMessage = '@Html.Raw(TempData["ErrorMessage"])';
+
+            if (successMessage) {
+                
+                Swal.fire({
+                    title: 'Başarılı!',
+                    text: successMessage,
+                    icon: 'success',
+                    confirmButtonText: 'Tamam'
+                });
+                // Eğer mesaj varsa modal gösterilir
+            }
+
+            if (errorMessage) {
+
+                Swal.fire({
+                    title: 'İşlem Başarısız oldu!',
+                    text: errorMessage,
+                    icon: 'error',
+                    confirmButtonText: 'Tamam'
+                })
+
+            }
+        });
+
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+}

@@ -1,0 +1,274 @@
+﻿@model List<EntityLayer.Concrete.AppRole>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div id="wrapper">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h2>Tüm Roller</h2>
+                    </div>
+                    <div class="ibox-content">
+
+                        <table class="table table-hover table-responsive">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">Rol Adı</th>
+                                    <th class="text-center">Düzenle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr data-role-name="@item.Name" data-role-id="@item.Id">
+                                        <td class="text-center">@item.Id</td>
+                                        <td class="text-center">@item.Name</td>
+                                        <td class="text-center" >
+                                            <button class="btn btn-sm btn-danger btn-delete-role">Sil</button>
+                                            <button data-toggle="modal" href="#modal-form-update" class="btn btn-sm btn-warning btn-update-role">Güncelle</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <button data-toggle="modal" href="#modal-form" class="btn btn-outline-success">Yeni Rol Ekle</button>
+                        <a href="/Admin/AdminRole/UserRoleList" class="btn btn-outline-info">Kullanıcı Rol Listesi</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div id="modal-form" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 b-r">
+                            <h3 class="m-t-none m-b">Rol Ekle</h3>
+                            <form id="roleForm">
+                                <div class="form-group"><label>Rol Adı</label> <input type="text" placeholder="Rol Adı" name="Name" class="form-control"></div>
+                                <div>
+                                    <button id="roleAddButton" class="btn btn-primary" type="button"><strong>Ekle</strong></button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+                                <div id="validation-summary" class="text-danger"></div> <!-- Hata mesajları için -->
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-form-update" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 b-r">
+                            <h3 class="m-t-none m-b">Rol Güncelle</h3>
+                            <form id="roleUpdateForm">
+                                <div class="form-group"><label>Rol Id</label> <input type="text" name="Id" class="form-control"></div>
+                                <div class="form-group"><label>Rol Adı</label> <input type="text" placeholder="Rol Adı" name="Name" class="form-control"></div>
+                            </form>
+                                <div>
+                                    <button id="roleUpdateButton" class="btn btn-primary" type="button"><strong>Güncelle</strong></button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+                                    <div id="validation-summary" class="text-danger"></div> <!-- Hata mesajları için -->
+                                </div>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section scripts{
+
+
+    <!-- Mainly scripts -->
+    <script src="~/inspinia-gh-pages/js/jquery-3.1.1.min.js"></script>
+    <script src="~/inspinia-gh-pages/js/popper.min.js"></script>
+    <script src="~/inspinia-gh-pages/js/bootstrap.js"></script>
+    <script src="~/inspinia-gh-pages/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="~/inspinia-gh-pages/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#roleAddButton').click(function () {
+                var formData = $('#roleForm').serialize(); // Form verilerini serialize et
+
+                console.log("Form Data:", formData); // Form verilerini konsola yazdır
+
+                var name = $('#roleForm input[name="Name"]').val().trim(); // 'Name' alanının değerini al ve boşlukları temizle
+
+                if (name === '') {
+                    $('#validation-summary').html('Rol adı boş olamaz.');
+                    return; // AJAX isteğini yapma
+                } else {
+
+                    $.ajax({
+                        url: '/Admin/AdminRole/AddRole',
+                        type: 'POST',
+                        data: formData,
+                        success: function (data) {
+                            console.log("Success:", data); // Başarı yanıtını konsola yazdır
+                            setTimeout(function () {
+
+                                $('#modal-form').find('[data-dismiss="modal"]').trigger('click');
+                                $('.modal-backdrop').remove();
+
+                            }, 100);
+
+                            swal.fire({
+
+                                title: "Ekleme İşlemi Başarılı",
+                                icon: "success",
+                                confirmButtonText: "Tamam"
+
+                            }).then((result) => {
+
+                                location.reload();
+
+                            })
+                        },
+                        error: function (xhr, status, error) {
+                            console.log('Error:', status, ',', error); // Hata mesajlarını konsola yazdır
+                        }
+                    });
+
+
+                }
+
+            });
+
+            $('.btn-delete-role').click( function(){
+
+                var row = $(this).closest('tr');
+
+                var Id = row.attr('data-role-id');
+
+                $.ajax({
+                    url: '/Admin/AdminRole/DeleteRole',
+                    type:'Post',
+                    data: { id: Id },
+                    success: function (data) {
+                        console.log( data );
+
+                        swal.fire({
+                            title: 'Silme Başarılı',
+                            icon: 'success',
+                            confirmButtonText: 'Tamam'
+                        }).then((result) => {
+
+                            location.reload();
+
+                        } )
+                    },
+                    error: function( xhr , status, error ){
+
+                        console.log( xhr + ',' + status + ',' + error );
+
+                    }
+                })
+
+            } )
+
+            $('.btn-update-role').click( function (){
+
+                var row = $(this).closest('tr');
+
+                var Id = row.attr('data-role-id');
+
+                var Name = row.attr('data-role-name');
+
+                $('#roleUpdateForm input[name="Id"]').val(Id);
+
+                $('#roleUpdateForm input[name="Name"]').val(Name);
+
+                console.log(Id);
+
+                console.log(Name);
+
+            } )
+
+            $('#roleUpdateButton').click( function (){
+
+                var formData = $('#roleUpdateForm').serialize();
+
+                console.log(formData);
+
+                if ((formData['Id'] === null && formData['Name'] === null) && (formData['Id'] === '' && formData['Name'] === '')) {
+
+                }else{
+
+                    $.ajax({
+
+                        url: '/Admin/AdminRole/UpdateRole',
+                        type: "POST",
+                        data: formData,
+                        success: function (data) {
+
+                            console.log(data);
+
+                            // setTimeout(function () {
+
+                            //     $('#modal-form').find('[data-dismiss="modal"]').trigger('click');
+                            //     $('.modal-backdrop').remove();
+
+                            // }, 100);
+
+                            // swal.fire({
+
+                            //     title: "Ekleme İşlemi Başarılı",
+                            //     icon: "success",
+                            //     confirmButtonText: "Tamam"
+
+                            // }).then((result) => {
+
+                            //     location.reload();
+
+                            // })
+
+                            setTimeout( function(){
+
+                                $('#modal-form-update').find('[data-dismiss="modal"]').trigger('click');
+                                $('.modal-backdrop').remove();
+
+                            }, 100 );
+
+                            swal.fire({
+
+                                title: "Güncelleme Başarılı",
+                                icon: "success",
+                                confirmButtonText: "Tamam",
+
+                            }).then( (result) => {
+
+                                location.reload();
+                            } )
+                        },
+                        error: function (xhr, status, error) {
+
+                            console.log(error);
+
+                        }
+
+                    })
+
+                }
+
+            } )
+        });
+    </script>
+}

@@ -1,0 +1,99 @@
+﻿@model EntityLayer.Concrete.Message2
+
+@{
+    ViewData["Title"] = "MessageDetails";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="ibox ">
+                        <div class="ibox-title">
+                            <h1>Mesaj Detayları</h1>
+                        </div>
+                        <div class="ibox-content">
+                            <input type="hidden" value="@Model.MessageID" id="messageIdInput">
+                                <div class="form-group  row"><label class="col-sm-2 col-form-label text-right">Gönderici:</label>
+
+                                    <div class="col-12 col-sm-12 col-md-6 col-lg-4"><input type="text" value="@Model.SenderUser.WriterName" class="form-control" readonly></div>
+                                </div>
+                                <div class="form-group  row"><label class="col-sm-2 col-form-label text-right">Konu:</label>
+
+                                    <div class="col-12 col-sm-12 col-md-6 col-lg-4"><input type="text" value="@Model.Subject" class="form-control" readonly></div>
+                                </div>
+                                <div class="form-group  row"><label class="col-sm-2 col-form-label text-right">Mesaj:</label>
+
+                <div class="col-12 col-sm-12 col-md-6 col-lg-4"><textarea type="text" rows="4" class="form-control" readonly>@Model.MessageDetails</textarea></div>
+                                </div>
+                                <div class="form-group  row"><label class="col-sm-2 col-form-label text-right">Tarih:</label>
+
+                <div class="col-12 col-sm-12 col-md-6 col-lg-4"> <input type="text" value="@(((DateTime)Model.MessageDate).ToString("dd-MMM-yyyy"))" class="form-control" readonly></div>
+                                </div>
+                            <div>
+                                <a id="goBackInbox" type="button" class="btn btn-w-m btn-primary text-white"><i class="fa fa-arrow-circle-o-left"></i> Geri Dön</a>
+                                <a id="deleteButton" type="button" class="btn btn-w-m btn-danger text-white"><i class="fa fa-trash"></i> Sil</a>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+@section scripts{
+
+    <script>
+
+        $(document).ready(function () {
+
+            console.log("Deletedelete");
+
+            $('#deleteButton').click( function(){
+
+                console.log("delete button")
+
+                var messageIds = [];
+
+                var messageId = $('#messageIdInput').val();
+
+                messageIds.push( messageId );
+
+                console.log( messageId );
+
+                if ( messageIds.length > 0 ) {
+
+                    $.ajax({
+
+                        url: '/Admin/Message/DeleteMessages',
+                        type: "Post",
+                        contentType: "application/json",
+                        data: JSON.stringify(messageIds),
+                        dataType: 'json',
+                        success: function (data) {
+
+                            console.log(data);
+
+                            window.location.href = "/Admin/Message/Inbox"
+                        }, error: function (xhr, status, error) {
+
+                            console.log(error);
+                        }
+
+                    })
+
+                } else {
+
+                    console.log("id yok!");
+
+                }
+
+            } )
+
+            $('#goBackInbox').click(function () {
+
+                console.log("goback");
+
+                window.location.href = "/Admin/Message/Inbox"
+
+            } )
+
+        } )
+
+    </script>
+
+}

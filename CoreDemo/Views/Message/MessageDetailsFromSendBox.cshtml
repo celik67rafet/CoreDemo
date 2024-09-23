@@ -1,0 +1,24 @@
+﻿@model EntityLayer.Concrete.Message2
+
+@{
+    ViewData["Title"] = "MessageDetailsFromSendBox";
+    Layout = "~/Views/Shared/WriterLayout.cshtml";
+}
+
+<h1>Mesaj Detayları</h1>
+<br />
+
+@Html.Label("Mesaj ID")
+@Html.TextBoxFor(x => x.MessageID, new { @class = "form-control w-25", @readonly = "readonly" })
+<br />
+@Html.Label("Mesaj Başlığı")
+@Html.TextBoxFor(x => x.Subject, new { @class = "form-control w-25", @readonly = "readonly" })
+<br />
+@Html.Label("Mesaj İçeriği")
+@Html.TextAreaFor(x => x.MessageDetails, 3, 10, new { @class = "form-control w-25", @readonly = "readonly" })
+<br />
+
+<div class="d-inline">
+    <a href="/Message/SendBox/" class="btn btn-info">Geri Dön</a>
+</div>
+

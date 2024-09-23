@@ -1,0 +1,42 @@
+﻿@model List<EntityLayer.Concrete.Message2>
+
+<li class="dropdown">
+    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+        <i class="fa fa-envelope"></i>
+        @if( Model.Where( x => x.MessageStatus == true ).Count() > 0)
+        {
+            <span class="label label-warning">@Model.Where(x => x.MessageStatus == true).Count()</span>
+        }
+    </a>
+    <ul class="dropdown-menu dropdown-messages">
+        @foreach( var item in Model.Where( x => x.MessageStatus == true ))
+        {
+
+            <li class="toInbox">
+                <div class="dropdown-messages-box">
+                    <a class="dropdown-item float-left" href="profile.html">
+                        <img alt="image" class="rounded-circle" src="~/WriterImageFiles/@item.SenderUser.WriterImage">
+                    </a>
+                    <div class="media-body" style="cursor:pointer;">
+                        <small class="float-right">@(((DateTime)item.MessageDate).ToString("dd-MMM-yyyy"))</small>
+                        <strong>@item.SenderUser.WriterName</strong> sana bir mesaj gönderdi. <br>
+                        @* <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small> *@
+                    </div>
+                </div>
+            </li>
+            <li class="dropdown-divider"></li>
+        }
+    </ul>
+</li>
+
+ <script>
+     $(document).ready( function(){
+
+         $('.toInbox').click(function () {
+
+             window.location.href = "/Admin/Message/Inbox";
+
+         } )
+
+     } )
+ </script>

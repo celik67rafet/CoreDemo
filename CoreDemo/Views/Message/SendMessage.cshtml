@@ -1,0 +1,40 @@
+﻿@model SendMessageViewModel
+
+@{
+    ViewData["Title"] = "SendMessage";
+    Layout = "~/Views/Shared/WriterLayout.cshtml";
+}
+
+<div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Mesaj Gönder</h4>
+            <form class="forms-sample" method="post" asp-action="SendMessage">
+                <div class="form-group">
+                    <label for="exampleSelectGender">Alıcı</label>
+                    <select class="form-control" id="exampleSelectGender" name="ReceiverID">
+                        <option value="">Yazar Seç</option>
+                        @foreach(var item in Model.writers){
+
+                            if( item.WriterID != Model.writerId )
+                            {
+                                <option value="@item.WriterID">@item.WriterName</option>
+                            }
+
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Konu</label>
+                    <input type="text" class="form-control" name="Subject" id="exampleInputEmail1" placeholder="Konu">
+                </div>
+                <div class="form-group">
+                    <label for="exampleTextarea1">Mesaj</label>
+                    <textarea class="form-control" id="exampleTextarea1" name="MessageDetails" rows="4"></textarea>
+                </div>
+                <button type="submit" class="btn btn-gradient-primary mr-2">Gönder</button>
+                <button class="btn btn-light">İptal Et</button>
+            </form>
+        </div>
+    </div>
+</div>

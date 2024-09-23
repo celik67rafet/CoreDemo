@@ -1,0 +1,49 @@
+﻿@model List<CategoryWithAverageRaytingViewModel>
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Kategoriler</h4>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th> # </th>
+                                <th> CategoryName </th>
+                                <th> CategoryStatus </th>
+                                <th> Puan ( 0/10 ) </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach( var item in Model)
+                            {
+                                var percentage = item.AverageRayting * 10; // yüze çevirdik
+
+                                var progressBarWidth = (int)Math.Round(percentage);
+
+                                <tr>
+                                    <th> @item.Category.CategoryID </th>
+                                    <td> @item.Category.CategoryName </td>
+                                    <td> @item.Category.CategoryStatus </td>
+                                    <td>
+                                        @if( progressBarWidth != 0 )
+                                        {
+                                            <div class="progress">
+                                                <div class="progress-bar bg-gradient-success" role="progressbar" style="width: @progressBarWidth%" aria-valuenow="@progressBarWidth" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span>Henüz Yorum Yok!</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

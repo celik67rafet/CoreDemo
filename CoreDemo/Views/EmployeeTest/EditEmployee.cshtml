@@ -1,0 +1,18 @@
+﻿@model CoreDemo.Controllers.EmployeeTestController.Class1;
+
+@{
+    ViewData["Title"] = "EditEmployee";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<form method="post">
+    <label>Id</label>
+    @Html.TextBoxFor(x => x.Id, new { @class = "form-control w-25", @readonly = "readonly" })
+    <br />
+    <label>Name</label>
+    @Html.TextBoxFor( x => x.Name, new { @class = "form-control w-25" } )
+    <br />
+    <button type="submit" class="btn btn-outline-success">Güncelle</button>
+</form>
+
+@section scripts{}

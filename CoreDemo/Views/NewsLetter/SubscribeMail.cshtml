@@ -1,0 +1,41 @@
+﻿<div class="tech-btm">
+	<p>Teknoloji, Yazılım ve Diğer Bloglarımızdan Mail yoluyla haberdar olun.</p>
+	<form>
+		<input type="email" id="letterMail" class="form-control" placeholder="Email" required="" name="Mail">
+		<input type="submit" id="btnLetterSubmit" value="Abone Ol">
+	</form>
+
+</div>
+
+<script type="text/javascript">
+
+	$("#btnLetterSubmit").click(function () {
+
+		let values = {
+
+			Mail: $("#letterMail").val()
+
+		};
+
+		console.log("test test");
+
+		$.ajax({
+
+			type: "post",
+			url: "/NewsLetter/SubscribeMail/",
+			data: values,
+			success: function (data) {
+
+				let result = jQuery.parseJSON(data);
+
+				console.log( result );
+
+			}
+
+		});
+
+	});
+
+</script>
+
+

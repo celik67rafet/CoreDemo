@@ -1,0 +1,30 @@
+﻿@model EntityLayer.Concrete.Notification
+
+@{
+    ViewData["Title"] = "NotificationDetail";
+    Layout = "~/Views/Shared/WriterLayout.cshtml";
+}
+
+<h1>Bildirim Detayları</h1>
+<br />
+
+
+@Html.Label("Bildirim Türü")
+<div class="input-group w-25">
+    <div class="input-group-append">
+        <span class="input-group-text bg-gradient-primary text-white"><i class="@Model.NotificationTypeSymbol"></i></span>
+    </div>
+    @Html.TextBoxFor(x => x.NotificationType, new { @class = "form-control", @readonly = "readonly" })
+</div>
+<br />
+@Html.Label("Bildirim")
+@Html.TextBoxFor(x => x.NotificationDetails, new { @class = "form-control w-25", @readonly = "readonly" })
+<br />
+@Html.Label("Bildirim Tarihi")
+@Html.TextAreaFor(x => x.NotificationDate, 3, 10, new { @class = "form-control w-25", @readonly = "readonly" })
+<br />
+
+<div class="d-inline">
+    <a href="/Notification/AllNotification/" class="btn btn-info">Geri Dön</a>
+</div>
+

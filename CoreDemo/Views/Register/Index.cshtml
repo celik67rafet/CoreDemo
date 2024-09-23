@@ -1,0 +1,187 @@
+﻿
+@model EntityLayer.Concrete.Writer
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+<section class="main-content-w3layouts-agileits">	
+	<div class="container">
+		<h3 class="tittle">Şİmdi Kayıt Ol</h3>
+		<div class="inner-sec">
+			<div class="login p-5 bg-light mx-auto mw-100">
+				@using( Html.BeginForm("Index","Register",FormMethod.Post) )
+					{
+					<div class="form-row">
+						<div class="col-md-6 mb-3">
+							<label for="validationCustom01">İsim Soyisim</label>
+							@Html.TextBoxFor( x => x.WriterName, new { @class="form-control" } )
+							@Html.ValidationMessageFor(x => x.WriterName,"", new { @class = "text-danger" })
+							@* <input type="text" class="form-cont	rol" id="validationDefault01" name="WriterName" placeholder="" required=""> *@
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="validationCustom02">Mail</label>
+							@Html.TextBoxFor(x => x.WriterMail, new { @class="form-control" })
+							@Html.ValidationMessageFor(x => x.WriterMail, "", new { @class = "text-danger" })
+							@* <input type="email" class="form-control" id="validationDefault02" name="WriterMail" placeholder="" required=""> *@
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="exampleInputPassword1 mb-2">Şifre</label>
+
+							<!-- PASSWORDD INPUT WITH TYPE CHANGER START -->
+
+							<div class="input-group">
+								@Html.TextBoxFor(x => x.WriterPassword, new { @class = "form-control", @type = "password", @id = "password" })
+								<div class="input-group-append">
+									<span class="input-group-text">
+										<i class="fa fa-eye" id="togglePassword" style="cursor: pointer;"></i>
+									</span>
+								</div>
+							</div>
+
+							<!-- PASSWORDD INPUT WITH TYPE CHANGER END -->
+
+							@Html.ValidationMessageFor(x => x.WriterPassword , "" , new { @class="text-danger" })
+							@* <input type="password" class="form-control" id="password1" name="WriterPassword" placeholder="" required=""> *@
+						</div>
+						<div class="form-group col-md-6">
+							<label for="exampleInputPassword2 mb-2">Görsel Dosya Yolu</label>
+							@Html.TextBoxFor(x => x.WriterImage , new { @class="form-control" })
+							@Html.ValidationMessageFor(x => x.WriterImage , "", new { @class="text-danger" })
+							@* <input type="text" class="form-control" id="password2" name="WriterImage" placeholder="" required=""> *@
+						</div>
+
+					</div>
+					@* <p>@ViewBag.x</p> || ViewBag bu şekilde kullanılır, controller'dan gelir *@
+					
+					<!-- Şehirler Dropdown START -->
+					
+					@* <div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="cityDropdown">Şehirler</label>
+							<select id="cityDropdown" class="form-control">
+								<option value="">Şehir Seçiniz</option>
+							</select>
+						</div>
+					</div> *@
+
+					<!-- Şehirler Dropdown END -->
+
+
+					<button type="submit" class="btn btn-primary submit mb-4">Kayıt Ol</button>
+					<p>
+						<a id="btn1" href="#">Tüm Şartları Okudum, Kabul Ediyorum...</a>
+					</p>
+				}
+
+			</div>
+		</div>
+	</div>
+
+	<br />
+
+	@* <button class="btn btn-info" id="btn1">Button Test</button> *@
+
+
+</section>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/CoreBlogTema/web/js/bootstrap.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	
+<script>
+
+	$("#btn1").click(function () {
+
+		Swal.fire({
+
+			icon: "info",
+			title: "Site Kabul Şartları",
+			text: "Sitemizde verdiğiniz mail adresi üzerinden bilgi ve" +
+				"haber e-postaları spam ölçüsüne varmadan gönderilmeye" +
+				"devam edilecektir. Eğer e-posta bülteninden çıkmak isterseniz" +
+				"mail ileti dizisini durdurabilirsiniz. Şifre ve mail adresleriniz" +
+				"Şifre ve mail adresleriniz şifrelenmiş formatta herhangi bir kullanıcının görmeyeceği" +
+				"şekilde veri tabanlarımızda saklanmaktadır.",
+			confirmButtonColor: "#ff759c",
+
+		});
+
+	} ) 
+
+</script>
+
+<!-- password input type changer START-->
+
+<script>
+	$(document).ready(function () {
+		$('#togglePassword').click(function () {
+			let input = $('#password');
+			let icon = $(this);
+			if (input.attr('type') === 'password') {
+				input.attr('type', 'text');
+				icon.removeClass('fa-eye').addClass('fa-eye-slash');
+			} else {
+				input.attr('type', 'password');
+				icon.removeClass('fa-eye-slash').addClass('fa-eye');
+			}
+		});
+	});
+</script>
+
+<!-- password input type changer END -->
+
+
+<!-- şehirler api istek START -->
+
+@* <script>
+	document.addEventListener('DOMContentLoaded', (event) => {
+		const dropdown = document.getElementById('cityDropdown');
+
+		async function fetchCities() {
+			try {
+				const response = await fetch('https://countriesnow.space/api/v0.1/countries/cities', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ country: 'turkey' })
+				});
+
+				if (!response.ok) {
+					throw new Error(`API isteği başarısız oldu: ${response.statusText}`);
+				}
+
+				const data = await response.json();
+				console.log('API Yanıtı:', data); // Yanıtı konsola yazdır
+				
+
+				const cities = data.data;
+
+				const dropdown = document.getElementById('cityDropdown');
+				dropdown.innerHTML = '<option value="">Şehir Seçiniz</option>'; // Mevcut seçenekleri temizle
+				cities.forEach(city => {
+					const option = document.createElement('option');
+					option.value = city;
+					option.textContent = city;
+					dropdown.appendChild(option);
+				});
+
+			} catch (error) {
+				console.error('Hata:', error.message); // Hata mesajını kontrol edin
+			}
+		}
+
+		fetchCities();
+
+		// Event listener for dropdown change
+		dropdown.addEventListener('change', (event) => {
+			const selectedValue = event.target.value;
+			console.log('Seçilen Şehir:', selectedValue);
+		});
+	});
+</script> *@
+
+<!-- şehirler api istek END -->

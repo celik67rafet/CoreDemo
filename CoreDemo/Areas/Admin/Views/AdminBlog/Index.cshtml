@@ -1,0 +1,142 @@
+﻿
+@model List< EntityLayer.Concrete.Blog >
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<body>
+
+    <div id="wrapper">
+
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-12">
+                    <h1 class="text-center">BLOGLAR</h1>
+                </div>
+                <div class="col-lg-2">
+                </div>
+            </div>
+
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row">
+                    @foreach( var item in Model.OrderByDescending( y => y.BlogID ) ){
+
+                    <div class="col-md-3">
+                        <div class="ibox">
+                            <div class="ibox-content product-box">
+
+                                <div class="product-imitation py-0" style="max-height:15em;">
+                                    <img src="~/@item.BlogThumbnailImage" style="max-height:15em;" class="img-fluid"/>
+                                </div>
+                                <div class="product-desc">
+                                    <span class="product-price">
+                                        @(((DateTime)item.BlogCreateDate).ToString("dd-MMM-yyyy"))
+                                    </span>
+                                    <small class="text-muted">@item.Category.CategoryName | @item.Writer.WriterName | @item.Writer.WriterMail</small>
+                                    <a href="#" class="product-name"> @item.BlogTitle</a>
+
+                                    <div class="small m-t-xs">
+                                        
+                                        @{
+
+                                            string blogContent = item.BlogContent;
+
+                                            int maxLength = 130;
+
+                                            string displayedContent;
+
+                                            if( !string.IsNullOrEmpty( blogContent ) && blogContent.Length > maxLength )
+                                            {
+                                                displayedContent = blogContent.Substring(0, maxLength);
+
+                                                int lastSpace = displayedContent.LastIndexOf(' ');
+
+                                                if( lastSpace > 0 ){
+
+                                                    displayedContent = displayedContent.Substring( 0 , lastSpace ) + "...";
+
+                                                }
+                                                else {
+                                                    displayedContent += "...";
+                                                }
+                                            }else{
+
+                                                displayedContent = blogContent;
+
+                                            }
+
+                                        }
+
+                                        <p>@displayedContent</p>
+
+                                    </div>
+                                    <div class="m-t text-righ">
+                                        @if( item.BlogStatus ){
+
+                                            <a href="#" data-blog-id="@item.BlogID" class="btn btn-xs status-changer btn-warning">Aktif</a>
+                                            <a href="#" data-blog-id="@item.BlogID" class="btn btn-xs status-changer btn-outline-danger">Pasif</a>
+                                        
+                                        }else{
+                                        
+                                            <a href="#" data-blog-id="@item.BlogID" class="btn btn-xs status-changer btn-outline-warning">Aktif</a>
+                                            <a href="#" data-blog-id="@item.BlogID" class="btn btn-xs status-changer btn-danger">Pasif</a>
+
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    }
+                </div>
+        </div>
+    </div>
+
+</body>
+
+@section scripts{
+
+
+    <!-- Mainly scripts -->
+    <script src="~/inspinia-gh-pages/js/jquery-3.1.1.min.js"></script>
+    <script src="~/inspinia-gh-pages/js/popper.min.js"></script>
+    <script src="~/inspinia-gh-pages/js/bootstrap.js"></script>
+    <script src="~/inspinia-gh-pages/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="~/inspinia-gh-pages/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <script>
+
+        $('.status-changer').click( function(){
+
+            var blogId = $(this).data('blog-id');
+
+            console.log(blogId);
+
+            $.ajax({
+
+                url: '/Admin/AdminBlog/BlogStatusChanger/' + blogId,
+                type: 'GET',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function( data ){
+
+                    console.log( data );
+
+                    window.location.href = "/Admin/AdminBlog/Index";
+                },
+                error: function( xhr, status, error ){
+
+                    console.log( error );
+
+                }
+
+            })
+
+        } )
+
+    </script>
+
+}
+
